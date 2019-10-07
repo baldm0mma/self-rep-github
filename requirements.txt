@@ -1,3 +1,4 @@
 flask-dance
 gunicorn
 python-dotenv
+flask_api
