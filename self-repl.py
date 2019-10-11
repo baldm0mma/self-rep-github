@@ -27,23 +27,18 @@ def index():
 
     user_resp = github.get("/user")
     if not user_resp.ok:
-        return "Something went wrong when trying to get logged user's data. " \
-              "Try refreshing a page. If it doesn't help - write to " \
-              "jev.forsberg@gmail.com"
-
+        return "Sorry, cannot grab user's data at this time."
     link_to_repo = get_link_to_repo(user_resp.json()["login"], repo_name)
 
     fork_resp = github.post(f'/repos/{host_username}/{repo_name}/forks')
 
     if not fork_resp.ok:
         if fork_resp.status_code == status.HTTP_404_NOT_FOUND:
-            return f"You are trying to fork your own repo or the repo does not exist."
+            return f"Sorry, it looks like you're attempting to fork your own repo; or the repo doesn't exist."
 
-        return "Something went wrong when trying to fork the repo. Try refreshing a page. " \
-              "If it doesn't help - write to jev.forsberg@gmail.com. "
+        return "Sorry, something went wrong when trying to fork the repo. Try refreshing a page. "
 
     return f"You have successfully forked a repository. URL: {link_to_repo}"
-
 
 if __name__ == "__main__":
     app.run()
